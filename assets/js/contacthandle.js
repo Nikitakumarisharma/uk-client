@@ -16,41 +16,39 @@ toggleOtherInput("contactMethod", "contactMethodOther");
 const form = document.getElementById("consultationForm");
 const alertMsg = document.getElementById("alertMsg");
 
-// Dynamically pick API base URL
-const apiBaseUrl = window.location.origin; 
-// So if you open from localhost, it will pick localhost, 
-// if you open live, it will pick https://ybtcuk.com
+// Backend API URL (yless function)
+const apiBaseUrl = "/api/send-consultation"; 
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   // Prepare data from form
   const data = {
-    fullName: document.getElementById("fullName").value,
-    phone: document.getElementById("phone").value,
-    orgName: document.getElementById("orgName").value,
+    fullName: document.getElementById("fullName").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    orgName: document.getElementById("orgName").value.trim(),
     companySize:
       document.getElementById("companySize").value === "Other"
-        ? document.getElementById("companySizeOther").value
+        ? document.getElementById("companySizeOther").value.trim()
         : document.getElementById("companySize").value,
     industry:
       document.getElementById("industry").value === "Other"
-        ? document.getElementById("industryOther").value
+        ? document.getElementById("industryOther").value.trim()
         : document.getElementById("industry").value,
     timeline:
       document.getElementById("timeline").value === "Other"
-        ? document.getElementById("timelineOther").value
+        ? document.getElementById("timelineOther").value.trim()
         : document.getElementById("timeline").value,
     contactMethod:
       document.getElementById("contactMethod").value === "Other"
-        ? document.getElementById("contactMethodOther").value
+        ? document.getElementById("contactMethodOther").value.trim()
         : document.getElementById("contactMethod").value,
-    message: document.getElementById("message").value,
+    message: document.getElementById("message").value.trim(),
   };
 
   try {
     // Send POST request to backend
-    const res = await fetch(`${apiBaseUrl}/send-consultation`, {
+    const res = await fetch(apiBaseUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
