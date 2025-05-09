@@ -1,5 +1,10 @@
 import nodemailer from "nodemailer";
 
+// Direct import of environment variables from .env file
+const EMAIL_USER = "info@ybtcuk.com";
+const EMAIL_PASS = "YBTC@uk123";
+const EMAIL_RECEIVER = "info@ybtcuk.com";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
@@ -19,15 +24,15 @@ export default async function handler(req, res) {
     port: 465,
     secure: true,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: EMAIL_USER,
+      pass: EMAIL_PASS,
     },
   });
 
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_RECEIVER || process.env.EMAIL_USER,
+      from: EMAIL_USER,
+      to: EMAIL_RECEIVER || EMAIL_USER,
       subject: `New Consultation Request from ${fullName}`,
       text: `
 📩 New Consultation Request
